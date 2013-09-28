@@ -83,6 +83,11 @@ class SassImportNode extends SassNode
             if (preg_match(self::MATCH_CSS, $subfile)) {
               $tree->addChild(new SassString("@import url('$subfile');"));
             } else {
+				$tree_root = $this->root;
+				while($tree_root->extend_parent) {
+					$tree_root = $tree_root->extend_parent->root;
+				}
+			  $tree_root->dependencies[] = $subfile;
               $this->parser->filename = $subfile;
               $subtree = SassFile::get_tree($subfile, $this->parser);
               foreach ($subtree->getChildren() as $child) {

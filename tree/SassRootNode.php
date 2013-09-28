@@ -43,6 +43,11 @@ class SassRootNode extends SassNode
   public $extend_parent = null;
 
   /**
+   * All imported filed
+   */
+  public $dependencies = array();
+
+  /**
    * Root SassNode constructor.
    * @param SassParser Sass parser
    * @return SassNode
@@ -82,6 +87,7 @@ class SassRootNode extends SassNode
    */
   public function render($context = null)
   {
+	$this->dependencies = array();
     $context = new SassContext($context);
     $node = $this->parse($context);
     $output = '';
